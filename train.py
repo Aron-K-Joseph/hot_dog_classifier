@@ -85,7 +85,7 @@ def train_model(model, train_loader, val_loader, num_epochs=16, lr=0.01, momentu
         print(f"Epoch {epoch+1}/{num_epochs}")
         print(f"Train loss: {train_loss:.4f}, acc: {train_acc:.4f}")
         print(f"Val loss: {val_loss:.4f}, acc: {val_acc:.4f}")
-
+    return model
 
 def get_dataloaders(data_dir,batch_size=32):
     train_dir = os.path.join(data_dir,"train")
@@ -112,16 +112,14 @@ def get_dataloaders(data_dir,batch_size=32):
 
 
 if __name__=="__main__":
-    data_dir = "data"
-    train_loader,test_loader,class_names = get_dataloaders(data_dir)
-    #print(train_loader)
-    #print(class_names)
-    iterator = iter(train_loader)
-    images, labels = next(iterator)
-    #print(f"Images: {images}")
-    #print(f"Labels: {labels}")
+    print("Script Starting") 
+    train_loader,test_loader,class_names = get_dataloaders("data")
+    print("Data Loaded")
     model = Net()
-    #print(images[0])
-    #print(model(images))
-    train_model(model,train_loader,test_loader)
-    #print(model.parameters)
+    print("Model Created")
+    model = train_model(model,train_loader,test_loader)
+    print("Model Trained")
+    torch.save({
+        "model_state_dict": model.state_dict()
+    },"hotdog_model.pth")
+    print("Model Saved")

@@ -1,3 +1,6 @@
+<<<<<<< HEAD
+# hot_dog_classifier
+=======
 # Hotdog vs. Not Hotdog Classifier
 
 A PyTorch image classifier that distinguishes hotdog from not hotdog.
@@ -45,3 +48,4 @@ To start training:
     python train.py
 
 A trained model file (hotdog_model.pth) will be saved automatically.
+>>>>>>> d8ad69f82d980d62ca1521e2810176a8ae7e6828

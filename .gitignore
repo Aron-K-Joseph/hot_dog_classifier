@@ -1,3 +1,10 @@
+<<<<<<< HEAD
+.venv/
+__pycache__/
+*.pt
+*.zip
+=======
 venv/
 __pycache__/
+>>>>>>> d8ad69f82d980d62ca1521e2810176a8ae7e6828
 data/

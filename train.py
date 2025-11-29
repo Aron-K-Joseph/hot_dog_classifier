@@ -1,11 +1,13 @@
 import os
 import torch
+import torchvision
 import torch.nn as nn
 import torch.optim as optim
 import torch.nn.functional as F
 from torch.utils.data import DataLoader
 from torchvision import datasets, transforms, models
-
+import matplotlib.pyplot as plt
+import numpy as np
 
 
 class Net(nn.Module):
@@ -33,6 +35,35 @@ class Net(nn.Module):
         x = self.fc3(x)
         return x
 
+def imshow(img):
+    img = img / 2 + 0.5     # unnormalize
+    npimg = img.numpy()
+    plt.imshow(np.transpose(npimg, (1, 2, 0)))
+    plt.show()
+
+def get_dataloaders(data_dir,batch_size=32):
+    train_dir = os.path.join(data_dir,"train")
+    test_dir = os.path.join(data_dir,"test")
+
+    #this function ends up getting applied to all the images
+    transform = transforms.Compose([
+        transforms.Resize((32,32)),
+        transforms.ToTensor(),
+        transforms.Normalize(
+            mean=(0.5, 0.5, 0.5),
+            std=(0.5,0.5,0.5)
+        )
+    ])
+    
+    train_dataset = datasets.ImageFolder(train_dir, transform=transform)
+    test_dataset = datasets.ImageFolder(test_dir, transform=transform)
+    train_loader = DataLoader(train_dataset, batch_size=batch_size, shuffle=True, num_workers=2)
+    test_loader = DataLoader(test_dataset, batch_size=batch_size, shuffle=False, num_workers=2)
+
+    class_names = ["hotdog", "nothotdog"]
+    return train_loader, test_loader, class_names
+
+
 def train_model(model, train_loader, val_loader, num_epochs=16, lr=0.01, momentum=0.9):
     criterion = nn.CrossEntropyLoss()
     optimizer = optim.SGD(model.parameters(),lr=lr,momentum=momentum)
@@ -43,6 +74,8 @@ def train_model(model, train_loader, val_loader, num_epochs=16, lr=0.01, momentu
         running_loss = 0
         correct = 0
         total = 0
+
+    # get some random training images
 
         for images, labels in train_loader:
             optimizer.zero_grad()
@@ -83,33 +116,10 @@ def train_model(model, train_loader, val_loader, num_epochs=16, lr=0.01, momentu
         val_acc = val_correct/val_total
 
         print(f"Epoch {epoch+1}/{num_epochs}")
+        print("Correct: ", correct, "Total: ", total)
         print(f"Train loss: {train_loss:.4f}, acc: {train_acc:.4f}")
         print(f"Val loss: {val_loss:.4f}, acc: {val_acc:.4f}")
     return model
-
-def get_dataloaders(data_dir,batch_size=32):
-    train_dir = os.path.join(data_dir,"train")
-    test_dir = os.path.join(data_dir,"test")
-
-    #this function ends up getting applied to all the images
-    transform = transforms.Compose([
-        transforms.Resize((32,32)),
-        transforms.ToTensor(),
-        transforms.Normalize(
-            mean=(0.5, 0.5, 0.5),
-            std=(0.5,0.5,0.5)
-        )
-    ])
-    
-    train_dataset = datasets.ImageFolder(train_dir, transform=transform)
-    test_dataset = datasets.ImageFolder(test_dir, transform=transform)
-    train_loader = DataLoader(train_dataset, batch_size=batch_size, shuffle=True, num_workers=2)
-    test_loader = DataLoader(test_dataset, batch_size=batch_size, shuffle=False, num_workers=2)
-
-    class_names = ["hotdog", "nothotdog"]
-    return train_loader, test_loader, class_names
-
-
 
 if __name__=="__main__":
     print("Script Starting") 

@@ -35,7 +35,7 @@ def load_image(image_path):
 #NEEDS EDITING
 #We need to find an API or something to connect the file uploaded from
 #app.js to here so that it can be evaluated. Then, we return it to app.js
-image_paths = ["dog.jpg", "hotdog.jpg"]
+image_paths = ["test1.jpg", "test2.jpg"]
 images = [load_image(img) for img in image_paths]
 
 with torch.no_grad():

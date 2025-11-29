@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <title>Convene with the Sphinx and Detect the Presence of a Hotdog</title>
+        <link href="https://fonts.googleapis.com/css2?family=Sofadi+One&display=swap" rel="stylesheet">
+        <link rel="stylesheet" href="style.css" />
+    </head>
+    <body>
+        <div id="app">
+            <!-- upload page -->
+            <section id="splash-page">
+                <h1>Is it a hot dog? The Pharaohs will divine!</h1>
+                <p>Upload a photo to be inspected...</p>
+
+                <form id="upload-form">
+                    <input type="file" id="image-input" accept="image/*" required />
+                    <button type="submit">Find that frank!</button>
+                </form>
+
+                <!-- hidden by default; only shown after submit -->
+                <p id="status" class="hidden">
+                    Consulting the forces of Egypt... identifying...
+                </p>
+            </section>
+
+            <!-- results page -->
+            <section id="results-screen" class="hidden">
+                <h2>Pharaoh’s Divination!</h2>
+
+                <div class="results-image-wrapper">
+                    <img id="result-image" alt="Uploaded preview" />
+                </div>
+
+                <div class="result-info">
+                    <p class="result-main">
+                        <span id="result-icon"></span>
+                        <span id="result-text"></span>
+                    </p>
+                    <p id="result-confidence"></p>
+                    <p id="result-eaten"></p>
+                </div>
+
+                <button id="try-again">Submit another image to inspect</button>
+            </section>
+        </div>
+
+        <script src="app.js"></script>
+    </body>
+</html>

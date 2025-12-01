@@ -15,6 +15,7 @@ net = Net()
 net.load_state_dict(torch.load('hotdog_model.pth')["model_state_dict"])
 net.eval()
 
+#New method to tranform input file.
 new_transform = transforms.Compose([
         transforms.Resize((32,32)),
         transforms.ToTensor(),
@@ -26,24 +27,31 @@ new_transform = transforms.Compose([
 
 class_names = ["hotdog", "nothotdog"]
 
+#Flask app intializiation 
 app = Flask(__name__)
 CORS(app)
 
+#Function handles image input from app.js
 def load_img(file):
         image = Image.open(io.BytesIO(file)).convert("RGB")
         image = new_transform(image)
         return image.unsqueeze(0)
 
+#Reciever for call from app.js
 @app.route("/predict", methods=["POST"])
 
+#Function runs the CNN from our loaded model on the input file 
 def predict():
+        #Error if no file is input
         if "file" not in request.files:
                 return jsonify({"error": "No file uploaded"}), 400
         
+        #Recieves and normalizes input file
         file = request.files["file"]
         img = file.read()
         img_tensor = load_img(img)
-
+        
+        #Applies CNN onto input while also applying output
         with torch.no_grad():       
                 output = net(img_tensor)
                 _, predicted = torch.max(output, 1)
@@ -53,7 +61,3 @@ def predict():
 
 if __name__ == "__main__":
         app.run(debug=True)
-
-#NEEDS EDITING
-#We need to find an API or something to connect the file uploaded from
-#app.js to here so that it can be evaluated. Then, we return it to app.js

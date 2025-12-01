@@ -9,6 +9,7 @@ from torchvision import datasets, transforms, models
 import numpy as np
 
 
+#Convolutional Nueral Network (CNN) set up.
 class Net(nn.Module):
     def __init__(self):
         super().__init__()
@@ -34,11 +35,12 @@ class Net(nn.Module):
         x = self.fc3(x)
         return x
 
+#Obtains datasets and formats them for training.
 def get_dataloaders(data_dir,batch_size=32):
     train_dir = os.path.join(data_dir,"train")
     test_dir = os.path.join(data_dir,"test")
 
-    #this function ends up getting applied to all the images
+    #this function resizes and standardizes all images
     transform = transforms.Compose([
         transforms.Resize((32,32)),
         transforms.ToTensor(),
@@ -48,6 +50,7 @@ def get_dataloaders(data_dir,batch_size=32):
         )
     ])
     
+    #initializes datasets to variables
     train_dataset = datasets.ImageFolder(train_dir, transform=transform)
     test_dataset = datasets.ImageFolder(test_dir, transform=transform)
     train_loader = DataLoader(train_dataset, batch_size=batch_size, shuffle=True, num_workers=2)

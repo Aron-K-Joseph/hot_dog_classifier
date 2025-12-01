@@ -6,7 +6,6 @@ import torch.optim as optim
 import torch.nn.functional as F
 from torch.utils.data import DataLoader
 from torchvision import datasets, transforms, models
-import matplotlib.pyplot as plt
 import numpy as np
 
 
@@ -34,12 +33,6 @@ class Net(nn.Module):
         x = F.relu(self.fc2(x))
         x = self.fc3(x)
         return x
-
-def imshow(img):
-    img = img / 2 + 0.5     # unnormalize
-    npimg = img.numpy()
-    plt.imshow(np.transpose(npimg, (1, 2, 0)))
-    plt.show()
 
 def get_dataloaders(data_dir,batch_size=32):
     train_dir = os.path.join(data_dir,"train")

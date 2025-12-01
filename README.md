@@ -48,4 +48,12 @@ To start training:
     python train.py
 
 A trained model file (hotdog_model.pth) will be saved automatically.
+
+## Using the website locally
+
+To utilize the web interface, first run the app.py folder, which will begin running the Python backend
+
+    python app.py
+
+Once completed, open the index.html file with any desired local server hosting method.
 >>>>>>> d8ad69f82d980d62ca1521e2810176a8ae7e6828

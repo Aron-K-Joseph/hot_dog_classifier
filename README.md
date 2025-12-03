@@ -11,6 +11,7 @@ Create and activate a virtual environment:
 
     python -m venv venv
     source venv/bin/activate
+    cd hot_dog_classifier/
     pip install -r requirements.txt
 
 ## Dataset Structure
